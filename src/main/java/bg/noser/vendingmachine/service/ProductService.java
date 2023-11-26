@@ -8,5 +8,9 @@ import java.util.Optional;
 public interface ProductService {
 
     List<ProductDTO> getAllProducts();
-    Optional<ProductDTO> findAllProductsById(Long id);
+    Optional<ProductDTO> findProductById(Long id);
+    void deleteProductById(Long id);
+    void deleteAllProducts();
+    Long createProduct(ProductDTO productDTO);
+//    ProductEntity findSpecificProduct(Long id);
 }

@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "coins")
-public class CoinsEintity {
+public class CoinEintity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String Name;
 
     private Double value;
 
@@ -17,17 +15,8 @@ public class CoinsEintity {
         return id;
     }
 
-    public CoinsEintity setId(Long id) {
+    public CoinEintity setId(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public CoinsEintity setName(String name) {
-        Name = name;
         return this;
     }
 
@@ -35,8 +24,16 @@ public class CoinsEintity {
         return value;
     }
 
-    public CoinsEintity setValue(Double value) {
+    public CoinEintity setValue(Double value) {
         this.value = value;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "CoinEintity{" +
+                "id=" + id +
+                ", value=" + value +
+                '}';
     }
 }

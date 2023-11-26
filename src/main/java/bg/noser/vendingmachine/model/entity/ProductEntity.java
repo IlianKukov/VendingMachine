@@ -12,9 +12,6 @@ public class ProductEntity {
     private String name;
     private String type;
     private Double price;
-    @ManyToOne
-    private ManufacturerEntity manufacturer;
-
 
     public Long getId() {
         return id;
@@ -52,22 +49,13 @@ public class ProductEntity {
         return this;
     }
 
-    public ManufacturerEntity getManufacturer() {
-        return manufacturer;
-    }
-
-    public ProductEntity setManufacturer(ManufacturerEntity manufacturer) {
-        this.manufacturer = manufacturer;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "ProductEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", manufacturer=" + (manufacturer != null ? manufacturer.getName() : null) +
+                ", price=" + price +
                 '}';
     }
 }

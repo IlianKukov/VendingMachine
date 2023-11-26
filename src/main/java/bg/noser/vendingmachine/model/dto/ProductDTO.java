@@ -7,13 +7,12 @@ public class ProductDTO {
 
     private Long id;
     private String name;
+
     private Double price;
 
     @NotEmpty
     @Size(min = 5)
     private String type;
-
-    private ManufacturerDTO manufacturer;
 
     public Long getId() {
         return id;
@@ -51,15 +50,6 @@ public class ProductDTO {
         return this;
     }
 
-    public ManufacturerDTO getManufacturer() {
-        return manufacturer;
-    }
-
-    public ProductDTO setManufacturer(ManufacturerDTO manufacturer) {
-        this.manufacturer = manufacturer;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "ProductDTO{" +
@@ -67,7 +57,6 @@ public class ProductDTO {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", type='" + type + '\'' +
-                ", manufacturer=" + manufacturer +
                 '}';
     }
 }
