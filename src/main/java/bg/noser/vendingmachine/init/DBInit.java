@@ -1,6 +1,6 @@
 package bg.noser.vendingmachine.init;
 
-import bg.noser.vendingmachine.model.entity.CoinEintity;
+import bg.noser.vendingmachine.model.entity.CoinEntity;
 import bg.noser.vendingmachine.model.entity.ProductEntity;
 import bg.noser.vendingmachine.repository.CoinsRepository;
 import bg.noser.vendingmachine.repository.ProductRepository;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class DBInit implements CommandLineRunner {
@@ -25,14 +24,15 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        if (productRepository.count() == 0) {
-            initWaffle();
-            initCola();
-            initChocolate();
-            initCoffie();
-            initCoins();
-        }
+//     //    Uncomment for db Seeding if required
+//
+//        if (productRepository.count() == 0) {
+//            initWaffle();
+//            initCola();
+//            initChocolate();
+//            initCoffie();
+//            initCoins();
+//        }
 
     }
     public void initCoins(){
@@ -87,7 +87,7 @@ public class DBInit implements CommandLineRunner {
     }
 
     private void initCoins(Double coinValue) {
-        CoinEintity coin = new CoinEintity();
+        CoinEntity coin = new CoinEntity();
         coin.setValue(coinValue);
 
         coinsRepository.save(coin);

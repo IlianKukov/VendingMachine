@@ -12,5 +12,5 @@ public interface ProductService {
     void deleteProductById(Long id);
     void deleteAllProducts();
     Long createProduct(ProductDTO productDTO);
-//    ProductEntity findSpecificProduct(Long id);
+
 }

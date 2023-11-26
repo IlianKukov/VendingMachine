@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "coins")
-public class CoinEintity {
+public class CoinEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +15,7 @@ public class CoinEintity {
         return id;
     }
 
-    public CoinEintity setId(Long id) {
+    public CoinEntity setId(Long id) {
         this.id = id;
         return this;
     }
@@ -24,7 +24,7 @@ public class CoinEintity {
         return value;
     }
 
-    public CoinEintity setValue(Double value) {
+    public CoinEntity setValue(Double value) {
         this.value = value;
         return this;
     }

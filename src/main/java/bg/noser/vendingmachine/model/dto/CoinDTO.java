@@ -1,7 +1,5 @@
 package bg.noser.vendingmachine.model.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-
 public class CoinDTO {
 
     private Long id;

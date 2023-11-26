@@ -1,7 +1,7 @@
 package bg.noser.vendingmachine.service.impl;
 
 import bg.noser.vendingmachine.model.dto.CoinDTO;
-import bg.noser.vendingmachine.model.entity.CoinEintity;
+import bg.noser.vendingmachine.model.entity.CoinEntity;
 import bg.noser.vendingmachine.repository.CoinsRepository;
 import bg.noser.vendingmachine.service.CoinService;
 import org.springframework.stereotype.Service;
@@ -32,16 +32,16 @@ public class CoinServiceImpl implements CoinService {
     @Override
     public Double insertCoin(Double coin) {
 
-        CoinEintity newCoin = new CoinEintity()
+        CoinEntity newCoin = new CoinEntity()
                 .setValue(coin);
         newCoin = coinsRepository.save(newCoin);
 
         return newCoin.getValue();
     }
 
-    private static CoinDTO mapCoinToDTO(CoinEintity coinEintity){
+    private static CoinDTO mapCoinToDTO(CoinEntity coinEntity){
         return new CoinDTO()
-                .setId(coinEintity.getId())
-                .setValue(coinEintity.getValue());
+                .setId(coinEntity.getId())
+                .setValue(coinEntity.getValue());
     }
 }

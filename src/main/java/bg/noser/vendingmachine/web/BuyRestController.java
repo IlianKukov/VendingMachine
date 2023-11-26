@@ -41,7 +41,7 @@ public class BuyRestController {
         }
 
         if (sumCoins>=productPrice){
-            // buy product if enought coins are available
+            // buy product if enough coins are available
             productService.deleteProductById(id);
             coinService.resetCoins();
             return ResponseEntity.ok().build();

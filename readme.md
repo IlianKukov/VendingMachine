@@ -23,6 +23,8 @@ If required they can be configured in the application.yaml
 All REST requests to the vending machine can be made while the program is running
 at localhost:8080 using Postman
 
+#### * For DB Seeding please uncomment the section in the DBInit Class
+
 ## **Vending Operations:**
 
 ###### Insert coin:
