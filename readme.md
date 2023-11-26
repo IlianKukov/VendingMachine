@@ -76,6 +76,7 @@ at localhost:8080 using Postman
 To create a product use the following:
 * POST request at: 'localhost:8080/api/products'
 
+
     {
         "name": "$(PRODUCT_NAME)",
         "price": $(PRODUCT_PRICE),
@@ -112,6 +113,7 @@ To create a product use the following:
         "type": "Coffie"
     }
 
+
 ###### Return product:
 
 **To return all products currently in the vending machine:**
@@ -135,11 +137,13 @@ To create a product use the following:
 
 USING THE FOLLOWING FORMAT:
 
+
     {
         "name": "$(PRODUCT_NAME)",
         "price": $(PRODUCT_PRICE),
         "type": "$(PRODUCT_TYPE)"
     }
+
 
 **Constraint:**
 
