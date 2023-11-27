@@ -52,6 +52,23 @@ at localhost:8080 using Postman
 
 * Status 200 OK and returning all the products available
 
+## CRUD Operations:
+###### Return product:
+
+**To return all products currently in the vending machine:**
+* GET request at: 'localhost:8080/api/products'
+
+**Expected Behaviour:**
+* Status 200 OK and list of the found products
+* Status 404 NOT FOUND if no products are in the machine
+
+**To return a specific product with ${id} :**
+* GET request at: 'localhost:8080/api/products/${id}'
+
+**Expected Behaviour:**
+* Status 200 OK if the product is found
+* Status 404 NOT FOUND if the product does not exist
+
 ###### Buy a product:
 **First insert the required amount of coins using the 'Insert coin' operation :)**
 
@@ -88,7 +105,7 @@ To create a product use the following:
 * Status 415 Unsupported Media Type if the product does not meet the creation JSON Pattern
 * Status 405 Method not allowed if the count of products with the same type exceeds 10 as per requirements.
 
-** To test the application You can insert the following 
+** To test the application You can insert the following products with separate requests by: 
 * POST request at: 'localhost:8080/api/products'
 
 
@@ -96,17 +113,20 @@ To create a product use the following:
         "name": "Black waffle",
         "price": 6.0,
         "type": "Chocolate"
-    },
+    }
+
     {
         "name": "Cola Light",
         "price": 10.0,
         "type": "Cola"
-    },
+    }
+
     {
         "name": "KitKat",
         "price": 5.0,
         "type": "Nestle"
-    },
+    }
+
     {
         "name": "Costa Signature Brew",
         "price": 15.0,
@@ -114,21 +134,6 @@ To create a product use the following:
     }
 
 
-###### Return product:
-
-**To return all products currently in the vending machine:**
-* GET request at: 'localhost:8080/api/products'
-
-**Expected Behaviour:**
-* Status 200 OK and list of the found products
-* Status 404 NOT FOUND if no products are in the machine
-
-**To return a specific product with ${id} :**
-* GET request at: 'localhost:8080/api/products/${id}'
-
-**Expected Behaviour:**
-* Status 200 OK if the product is found
-* Status 404 NOT FOUND if the product does not exist
 
 ###### Update product:
 
