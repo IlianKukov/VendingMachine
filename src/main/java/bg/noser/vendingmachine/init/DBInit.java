@@ -24,15 +24,15 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//     //    Uncomment for db Seeding if required
-//
-//        if (productRepository.count() == 0) {
-//            initWaffle();
-//            initCola();
-//            initChocolate();
-//            initCoffie();
-//            initCoins();
-//        }
+     //    Uncomment for db Seeding if required
+
+        if (productRepository.count() == 0) {
+            initWaffle();
+            initCola();
+            initChocolate();
+            initCoffie();
+            initCoins();
+        }
 
     }
     public void initCoins(){

@@ -21,7 +21,8 @@ If required they can be configured in the application.yaml
 
 ###### Specifications:
 All REST requests to the vending machine can be made while the program is running
-at localhost:8080 using Postman
+at localhost:8080 using Postman 
+or Open API(Swagger) at localhost:8080/swagger-ui/index.html
 
 #### * For DB Seeding please uncomment the section in the DBInit Class
 

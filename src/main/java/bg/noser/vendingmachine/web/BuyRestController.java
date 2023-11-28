@@ -4,6 +4,12 @@ import bg.noser.vendingmachine.model.dto.CoinDTO;
 import bg.noser.vendingmachine.model.dto.ProductDTO;
 import bg.noser.vendingmachine.service.CoinService;
 import bg.noser.vendingmachine.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +27,25 @@ public class BuyRestController {
         this.productService = productService;
         this.coinService = coinService;
     }
-
+    @Operation( summary = "Buy a particular product by id")
+    @ApiResponses(
+            value ={
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Displays all products found in the vending machine",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "No products found in the vending machine",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ProductDTO.class))}
+                    )
+            }
+    )
+    @Parameter(name = "Parameters" ,description = "Required id of the product", required = false)
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> findProductById(@PathVariable("id") Long id){
         Optional<ProductDTO> productDTOOptional = productService.findProductById(id);
