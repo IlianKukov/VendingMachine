@@ -38,14 +38,10 @@ public class ProductRestController {
       @ApiResponse(
        responseCode = "404",
        description = "No products found in the vending machine",
-           content = {
-                   @Content(
-                   mediaType = "application/json",
-                   schema = @Schema(implementation = ProductDTO.class))}
+              content = @Content
       )
       }
     )
-    @Parameter(name = "Parameters" ,description = "No Parameters required", required = false)
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAllProducts(){
         List<ProductDTO> countOfProducts = productService.getAllProducts();
@@ -66,14 +62,11 @@ public class ProductRestController {
                     @ApiResponse(
                             responseCode = "404",
                             description = "The Product is not found in the vending machine",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
+                            content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "Required id of the product", required = false)
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findProductById(@PathVariable("id") Long id){
         Optional<ProductDTO> productDTOOptional = productService.findProductById(id);
@@ -92,14 +85,10 @@ public class ProductRestController {
                     @ApiResponse(
                             responseCode = "404",
                             description = "Displays status code 404 if the product is not found",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
+                            content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "Required id of the product", required = false)
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> deleteProductById(@PathVariable("id") Long id) {
         Optional<ProductDTO> productDTOOptional = productService.findProductById(id);
@@ -122,18 +111,9 @@ public class ProductRestController {
                             responseCode = "200",
                             description = "Displays status code 200 if all products are deleted successfully",
                             content = @Content
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Displays status code 404 no products are available in the machine",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = " No parameters are required", required = false)
     @DeleteMapping("/deleteallproducts")
     public ResponseEntity<ProductDTO> deleteAllProducts() {
         productService.deleteAllProducts();
@@ -141,25 +121,26 @@ public class ProductRestController {
                 .build();
     }
 
-    @Operation( summary = "Creates a new product")
+    @Operation( summary = "Creates a new product using JSON format as in readme.md")
     @ApiResponses(
             value ={
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "201",
                             description = "Displays status code 200 if the products is successfully created",
                             content = @Content
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "Displays status code 404 if the product not created for any reason",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
+                            responseCode = "400",
+                            description = "Displays status code 400 if the format is bad",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "422",
+                            description = "The count of products with the same type exceeds 10 as per requirements",
+                            content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "Required are all Name, Type and Price of the Product", required = false)
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO, UriComponentsBuilder uriComponentsBuilder) {
         int thisProductCount = productRepository
@@ -171,12 +152,13 @@ public class ProductRestController {
         String type = productDTO.getType();
 
         if (price==null || price<=0 || name==null || type==null){
-            return ResponseEntity.status(422)
+            //if product is not correctly specified
+            return ResponseEntity.status(400)
                     .build();
         }
 
         if (thisProductCount <= 9) {
-
+            //if count of the same product type is larger than 10
             long newProductID = productService.createProduct(productDTO);
 
             return ResponseEntity.created(
@@ -187,25 +169,32 @@ public class ProductRestController {
         return ResponseEntity.status(422)
                 .build();
     }
-    @Operation( summary = "Updates a particular product by id")
+    @Operation( summary = "Updates a particular product by id with the specified JSON format")
     @ApiResponses(
             value ={
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Displays status code 200 if all product is updated successfully",
+                            description = "Displays status code 200 if the product is updated successfully",
+                            content = @Content
+
+                    ),
+                    @ApiResponse(
+                            responseCode = "405",
+                            description = "Displays status code 405 if the product id is wrong",
                             content = @Content
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "Displays status code 404 if the product is not updated",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
+                            responseCode = "406",
+                            description = "Displays status code 406 if the product count from same type exceeds 10",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Displays status code 400 if the JSON format is wrong",
+                            content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "Required id of the product", required = false)
     @PutMapping("{id}")
     public ResponseEntity<ProductEntity> updateProduct(@PathVariable long id, @RequestBody ProductDTO productDTO) {
 
@@ -224,9 +213,12 @@ public class ProductRestController {
 
             productRepository.save(updated);
             return ResponseEntity.ok(updated);
-        }
-        else {
+        } else if (updateProduct.isPresent()) {
+            //Product count over 10
             return ResponseEntity.status(406).build();
+        } else {
+            //wrong format or id
+            return ResponseEntity.status(405).build();
         }
 
 

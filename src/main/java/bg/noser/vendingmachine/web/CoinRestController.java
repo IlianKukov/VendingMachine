@@ -35,7 +35,6 @@ public class CoinRestController {
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "No Parameters required", required = false)
     @GetMapping
     public ResponseEntity<List<CoinDTO>> getAllCoins(){
         return ResponseEntity.ok(coinService.getAllCoins());
@@ -46,37 +45,33 @@ public class CoinRestController {
             value ={
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Displays nothing because all coins are returned to the buyer",
+                            description = "Displays the list of returned coins",
                             content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "No Parameters required", required = false)
     @GetMapping("/returncoins")
     public ResponseEntity<List<CoinDTO>> returnCoins() {
+        List<CoinDTO> returnCoinsList = coinService.getAllCoins();
         coinService.resetCoins();
-        return ResponseEntity.ok(coinService.getAllCoins());
+        return ResponseEntity.ok(returnCoinsList);
     }
 
-    @Operation( summary = "Insert Coin in the Vending Machine")
+    @Operation( summary = "Insert Coin in the Vending Machine. Accepted are only 0.1 (10st), 0.2 (20st), 0.5 (50st), 1 (1lv), 2 (2lv)")
     @ApiResponses(
             value ={
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "Displays status 200 if the coin is the correct type",
+                            responseCode = "201",
+                            description = "Displays status 201 if the inserted coin is the correct type",
                             content = @Content
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "Displays status 404 if the coins is not correctly specified",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
+                            responseCode = "400",
+                            description = "Displays status 400 if the inserted coin is not correctly specified",
+                            content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "Accepted are only 0.1(10st), 0.2(20st), 0.5(50st), 1(1lv), 2(2lv)", required = false)
     @PostMapping("/{id}")
     public ResponseEntity<CoinDTO> insertCoin(@PathVariable("id") Double value, UriComponentsBuilder uriComponentsBuilder) {
 

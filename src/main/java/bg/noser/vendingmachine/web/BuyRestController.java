@@ -5,7 +5,6 @@ import bg.noser.vendingmachine.model.dto.ProductDTO;
 import bg.noser.vendingmachine.service.CoinService;
 import bg.noser.vendingmachine.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,33 +26,35 @@ public class BuyRestController {
         this.productService = productService;
         this.coinService = coinService;
     }
-    @Operation( summary = "Buy a particular product by id")
+    @Operation( summary = "Buy a particular product by id. Make sure to insert enough coins first!")
     @ApiResponses(
             value ={
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Displays all products found in the vending machine",
+                            description = "Buying product is successful!",
                             content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "No products found in the vending machine",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ProductDTO.class))}
+                            description = "Buying product is unsuccessful. Product not found!",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "426",
+                            description = "Buying product is unsuccessful. Not enough coins!",
+                            content = @Content
                     )
             }
     )
-    @Parameter(name = "Parameters" ,description = "Required id of the product", required = false)
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProductDTO> findProductById(@PathVariable("id") Long id){
+    public ResponseEntity<ProductDTO> buyProductById(@PathVariable("id") Long id){
         Optional<ProductDTO> productDTOOptional = productService.findProductById(id);
         Double sumCoins = 0.0;
         Double productPrice = 0.0;
 
 
         if (productDTOOptional.isEmpty()){
+            // Product not found!
             return ResponseEntity.notFound().build();
         }
         else {
@@ -70,6 +71,7 @@ public class BuyRestController {
             coinService.resetCoins();
             return ResponseEntity.ok().build();
         }else {
+            //not enough coins
             return ResponseEntity.status(426).build();
         }
 

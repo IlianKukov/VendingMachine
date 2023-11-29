@@ -4,8 +4,10 @@
 ###### Environment:
 The application is created using IntelliJ, Java 17, Sprint boot 3.2.0 and gradle as build tool.
 It uses SpringRestControllers to deliver its functionality.
-Postman API platform is recommended as an interface.
+Postman API platform is recommended as an interface but not required.
 Download Postman at: www.postman.com
+
+**Open API(Swagger)** interface is available at localhost:8080/swagger-ui/index.html
 
 ###### Database:
 MySQL database is required.
@@ -22,7 +24,7 @@ If required they can be configured in the application.yaml
 ###### Specifications:
 All REST requests to the vending machine can be made while the program is running
 at localhost:8080 using Postman 
-or Open API(Swagger) at localhost:8080/swagger-ui/index.html
+**or Open API(Swagger) at localhost:8080/swagger-ui/index.html**
 
 #### * For DB Seeding please uncomment the section in the DBInit Class
 
@@ -37,14 +39,15 @@ or Open API(Swagger) at localhost:8080/swagger-ui/index.html
 
 **Expected Behaviour:**
 
-* Status 200 OK
+* Status 201 Created if the coin is inserted
+* Status 400 Bad Request if the coin value is incorrect
 
 ###### Return all coins:
 * GET request at: 'localhost:8080/api/coins/returncoins'
 
 **Expected Behaviour:**
 
-* Status 200 OK
+* Status 200 OK and returning a list of the coins currently in the machine
 
 ###### Get list of coins that are currently in the machine:
 * GET request at: 'localhost:8080/api/coins'
@@ -102,9 +105,9 @@ To create a product use the following:
     }
 
 **Expected Behaviour:**
-* Status 200 OK
-* Status 415 Unsupported Media Type if the product does not meet the creation JSON Pattern
-* Status 405 Method not allowed if the count of products with the same type exceeds 10 as per requirements.
+* Status 201 Product created
+* Status 400 if the product does not meet the creation JSON Pattern
+* Status 422 Method not allowed if the count of products with the same type exceeds 10 as per requirements.
 
 ** To test the application You can insert the following products with separate requests by: 
 * POST request at: 'localhost:8080/api/products'
@@ -157,8 +160,9 @@ USING THE FOLLOWING FORMAT:
 
 **Expected Behaviour:**
 * Status 200 OK if the product is found
-* Status 406 NOT ACCEPTABLE if the product does not exist OR if there are already 10 products with the same type.
-
+* Status 405 NOT ACCEPTABLE if the product does not exist OR the format is wrong.
+* Status 406 NOT if there are already 10 products with the same type.
+* Status 400 if the JSON format is wrong
 
 ###### Delete product:
 
@@ -175,7 +179,7 @@ USING THE FOLLOWING FORMAT:
 * DELETE request at: 'localhost:8080/api/products/deleteallproducts'
 
 **Expected Behaviour:**
-* Status 200 OK
+* Status 200 OK to confirm the purge
 
 
 
